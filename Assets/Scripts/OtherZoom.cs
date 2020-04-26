@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mapbox.Unity.Map;
 
+//Used to zoom on the map when game is running
 public class OtherZoom : MonoBehaviour {
-
-    [SerializeField] private AbstractMap map;
+    
     [SerializeField] private Camera cam;
     private float scroll;
 
@@ -33,16 +32,6 @@ public class OtherZoom : MonoBehaviour {
             StartCoroutine(OnScroll());
         }
         StartCoroutine(OnMouseDrag());
-
-
-
-        //if(scroll != 0 && map.Zoom + scroll <= 18 && map.Zoom + scroll >= 13)
-        //{
-        //    map.UpdateMap(map.Zoom + scroll);
-        //}
-
-
-
     }
 
     private IEnumerator OnScroll()

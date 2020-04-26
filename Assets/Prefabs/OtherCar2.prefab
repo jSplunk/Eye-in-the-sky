@@ -92,7 +92,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4263033202815008}
   - component: {fileID: 114247807043089068}
-  - component: {fileID: 114905159696957592}
+  - component: {fileID: 114491852092614160}
   - component: {fileID: 195405772816603896}
   m_Layer: 0
   m_Name: OtherCar2
@@ -425,7 +425,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TargetPosition: {x: 0, y: 0, z: 0}
   debug: 0
---- !u!114 &114905159696957592
+--- !u!114 &114491852092614160
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

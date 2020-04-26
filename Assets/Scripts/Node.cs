@@ -1,6 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * 
+ *  Implementation based on Sebastian Lague
+ *  'https://github.com/SebLague/Pathfinding'
+ *
+ */
+
+//Node class used for pathfinding algorithms
 public class Node : IHeapItem<Node>
 {
     public bool isWalkable;
@@ -12,7 +20,6 @@ public class Node : IHeapItem<Node>
     public int xGridPos;
     public int yGridPos;
     public Node parent;
-    int heapIndex;
 
     public int fCost { get { return gCost + hCost; } }
 
@@ -24,17 +31,7 @@ public class Node : IHeapItem<Node>
         yGridPos = _y;
     }
 
-    public int HeapIndex
-    {
-        get
-        {
-            return heapIndex;
-        }
-        set
-        {
-            heapIndex = value;
-        }
-    }
+    public int HeapIndex { get; set; }
 
     public int CompareTo(Node n)
     {

@@ -2,9 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Jobs;
 
+/*
+ * 
+ *  Implementation based on Sebastian Lague
+ *  'https://github.com/SebLague/Pathfinding'
+ *
+ */
 
-
+ //Navigation class for both A* and JPS+
 public class Navigation : MonoBehaviour
 {
     
@@ -27,13 +34,13 @@ public class Navigation : MonoBehaviour
         
     }
 
-    public IEnumerator SetDestination(Vector3 Destination)
+    public IEnumerator SetDestination(Vector3 Start,Vector3 Destination)
     {
         
         m_destination = Destination;
-        Node startNode = m_grid.NodeFromWorldPoint(transform.position);
+        Node startNode = m_grid.NodeFromWorldPoint(Start);
         Node destinationNode = m_grid.NodeFromWorldPoint(Destination);
-        int remainingGridDistance;
+        
 
         Queue<Node> open = new Queue<Node>();
         HashSet<Node> closed = new HashSet<Node>();
@@ -48,15 +55,24 @@ public class Navigation : MonoBehaviour
 
             closed.Add(current);
 
-            remainingGridDistance = m_grid.GetDistance(current, destinationNode);
+            remainingDistance = m_grid.GetDistance(current, destinationNode);
 
-            if (remainingGridDistance == 0)
+            if (remainingDistance == 0)
             {
                 Trace(startNode, destinationNode);
                 yield return null;
             }
 
+
+            /*
+             * 
+             *  JPS+ implementation (uncomment the GetSuccessors function call, and comment the foreach loop below)
+             *
+             */
+
+
             //GetSuccessors(current, startNode, destinationNode, ref open, ref closed);
+
 
             /*
              * 
@@ -84,6 +100,7 @@ public class Navigation : MonoBehaviour
 
     }
 
+
     void OnDrawGizmos()
     {
         if (!drawPath) return;
@@ -94,7 +111,7 @@ public class Navigation : MonoBehaviour
 
         foreach (Node n in fullPath)
         {
-            float nodeDiameter = m_grid.nodeRadius * 2;
+            float nodeDiameter = m_grid.nodeLength * 2;
             Gizmos.DrawCube(n.worldPosition, new Vector3(nodeDiameter - 0.1f, 1, nodeDiameter - 0.1f));
 
         }
@@ -115,17 +132,17 @@ public class Navigation : MonoBehaviour
         pathPending = false;
     }
 
-
-    public void GetSuccessors(Node current, Node start, Node end, ref Queue<Node> open, ref HashSet<Node> closed)
+    //JPS+
+    void GetSuccessors(Node current, Node start, Node end, ref Queue<Node> open, ref HashSet<Node> closed)
     {
-        List<Node> neigbours = GetNeighbourJumpoints(current, end);
+        List<Node> neigbours = GetNeighbourJumppoints(current, end);
 
         foreach (Node neighbour in neigbours)
         {
             int dirX = Mathf.Clamp(neighbour.xGridPos - current.xGridPos, -1, 1);
             int dirY = Mathf.Clamp(neighbour.yGridPos - current.yGridPos, -1, 1);
 
-            Node jumppoint = jump(current.xGridPos, current.yGridPos, dirX, dirY, neighbour, end);
+            Node jumppoint = Jump(current.xGridPos, current.yGridPos, dirX, dirY, neighbour, end);
 
             if (jumppoint == null) continue;
 
@@ -143,7 +160,8 @@ public class Navigation : MonoBehaviour
         }
     }
 
-    List<Node> GetNeighbourJumpoints(Node current, Node end)
+    //JPS+
+    List<Node> GetNeighbourJumppoints(Node current, Node end)
     {
 
         List<Node> neighbours = new List<Node>();
@@ -178,145 +196,17 @@ public class Navigation : MonoBehaviour
         return neighbours;
     }
 
-    struct JumpPoint //: IHeapItem<JumpPoint>
+    struct JumpPoint
     {
         public int dirX;
         public int dirY;
         public int x;
         public int y;
-        //int heapIndex;
-
-        //int IHeapItem<JumpPoint>.HeapIndex
-        //{
-        //    get
-        //    {
-        //        return heapIndex;
-        //    }
-        //    set
-        //    {
-        //        heapIndex = value;
-        //    }
-        //}
-
-        //int IComparable<JumpPoint>.CompareTo(JumpPoint other)
-        //{
-        //    if (x.CompareTo(other.x) < 0 && y.CompareTo(other.y) < 0)
-        //        return -1;
-        //    else if (x.CompareTo(other.x) > 0 && y.CompareTo(other.y) > 0)
-        //        return 1;
-        //    else
-        //        return 0;
-        //}
     }
 
-
-    Node jump(int x, int y, int dx, int dy, Node start, Node end)
+    //JPS+
+    Node Jump(int x, int y, int dx, int dy, Node start, Node end)
     {
-        //List<JumpPoint> current = new List<JumpPoint>();
-
-        //JumpPoint jmp = new JumpPoint
-        //{
-        //    dirX = dx,
-        //    dirY = dy,
-        //    x = x,
-        //    y = y
-        //};
-
-        //int nextX;
-        //int nextY;
-
-        //current.Add(jmp);
-
-        //while (current.Count > 0)
-        //{
-        //    jmp = current[0];
-
-        //    nextX = jmp.x + jmp.dirX;
-        //    nextY = jmp.y + jmp.dirY;
-
-        //    current.RemoveAt(0);
-
-        //    if (!m_grid.grid[nextX, nextY].isWalkable) continue;
-
-        //    if (nextX == end.xGridPos && nextY == end.yGridPos) return m_grid.grid[nextX, nextY];
-
-        //    if (jmp.dirX != 0 && jmp.dirY != 0)
-        //    {
-        //        if ((m_grid.grid[jmp.x - jmp.dirX, nextY].isWalkable && !m_grid.grid[jmp.x - jmp.dirX, jmp.y].isWalkable) ||
-        //           (m_grid.grid[nextX, jmp.y - jmp.dirY].isWalkable && !m_grid.grid[jmp.x, jmp.y - jmp.dirY].isWalkable))
-        //            return m_grid.grid[nextX, nextY];
-        //        else
-        //        {
-        //            int tmpdy = jmp.dirY;
-        //            int tmpdx = jmp.dirX;
-
-        //            jmp.dirY = 0;
-        //            if (!current.Contains(jmp))
-        //            {
-        //                jmp.x = nextX;
-        //                jmp.y = nextY;
-        //                current.Insert(0, jmp);
-        //            }
-
-        //            jmp.dirY = tmpdy;
-        //            jmp.dirX = 0;
-        //            if (!current.Contains(jmp))
-        //            {
-        //                jmp.x = nextX;
-        //                jmp.y = nextY;
-        //                current.Insert(0, jmp);
-        //            }
-        //            jmp.dirX = tmpdx;
-
-
-        //        }
-
-        //        //if (jump(nextX, nextY, dx, 0, start, end) != null ||
-        //        //    jump(nextX, nextY, 0, dy, start, end) != null)
-        //        //{
-        //        //    return m_grid.grid[nextX, nextY];
-        //        //}
-        //        if (m_grid.grid[nextX, jmp.y].isWalkable && m_grid.grid[jmp.x, nextY].isWalkable)
-        //        {
-        //            current.Add(jmp);
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        if (jmp.dirX != 0)
-        //        {
-        //            if (m_grid.grid[nextX, nextY].isWalkable && !m_grid.grid[jmp.x, nextY].isWalkable ||
-        //               m_grid.grid[nextX, jmp.y - 1].isWalkable && !m_grid.grid[jmp.x, jmp.y - 1].isWalkable)
-        //            {
-        //                return m_grid.grid[nextX, nextY];
-        //            }
-        //        }
-        //        else
-        //        {
-        //            if (m_grid.grid[jmp.x + 1, nextY].isWalkable && !m_grid.grid[jmp.x + 1, jmp.x].isWalkable ||
-        //                m_grid.grid[jmp.x - 1, nextY].isWalkable && !m_grid.grid[jmp.x - 1, jmp.y].isWalkable)
-        //            {
-        //                return m_grid.grid[nextX, nextY];
-        //            }
-        //        }
-
-        //        jmp.x = nextX;
-        //        jmp.y = nextY;
-
-        //        if (m_grid.grid[nextX, jmp.y].isWalkable && m_grid.grid[jmp.x, nextY].isWalkable)
-        //        {
-        //            current.Insert(0, jmp);
-        //        }
-
-        //    }
-
-
-
-        //}
-
-        //return null;
-
         int nextX = x + dx;
         int nextY = y + dy;
 
@@ -330,8 +220,8 @@ public class Navigation : MonoBehaviour
                (m_grid.grid[nextX, y - dy].isWalkable && !m_grid.grid[x, y - dy].isWalkable))
                 return m_grid.grid[nextX, nextY];
 
-            if (jump(nextX, nextY, dx, 0, start, end) != null ||
-                jump(nextX, nextY, 0, dy, start, end) != null)
+            if (Jump(nextX, nextY, dx, 0, start, end) != null ||
+                Jump(nextX, nextY, 0, dy, start, end) != null)
             {
                 return m_grid.grid[nextX, nextY];
             }
@@ -357,7 +247,7 @@ public class Navigation : MonoBehaviour
         }
 
         if (m_grid.grid[nextX, y].isWalkable && m_grid.grid[x, nextY].isWalkable)
-            return jump(nextX, nextY, dx, dy, start, end);
+            return Jump(nextX, nextY, dx, dy, start, end);
         else
             return null;
 

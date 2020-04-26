@@ -5,6 +5,8 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+//Car object used for built in pathfinding
 public class Car : MonoBehaviour {
 
     [SerializeField] Vector3 TargetPosition;
@@ -37,17 +39,6 @@ public class Car : MonoBehaviour {
         timer = 5.0f;
 
         StartCoroutine(Init());
-
-        //StartPosition.x = Random.Range(-1000, 1000);
-
-        //StartPosition.y = 0.6f;
-
-        //StartPosition.z = Random.Range(-1000, 1000);
-        
-
-       
-
-        
     }
 	
 	// Update is called once per frame
@@ -55,7 +46,7 @@ public class Car : MonoBehaviour {
         if(!navMeshAgent.isOnNavMesh)
         {
             TransformController.Instance.CarsDestroyed.Invoke(this);
-            Destroy(gameObject, 2);
+            Destroy(gameObject);
             return;
         }
         else if(navMeshAgent.isOnNavMesh && !first)
@@ -110,12 +101,6 @@ public class Car : MonoBehaviour {
         
     }
 
-    void Go()
-    {
-        StartPosition = transform.position;
-        navMeshAgent.SetDestination(TargetPosition);
-    }
-
     void CalcPath()
     {
         
@@ -123,18 +108,15 @@ public class Car : MonoBehaviour {
         navMeshAgent.CalculatePath(trans.position, navMeshPath);
        
         StartPosition = transform.position;
-
-        //isCalc = navMeshAgent.SetDestination(trans.position);
-        //isCalc = navMeshAgent.CalculatePath(trans.position, navMeshPath);
     }
 
     void Render()
     {
-        
-        GetComponentInChildren<MeshRenderer>().enabled = true;
-        render = true;
-        
-        
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = true;
+        }
+        render = true; 
     }
 
     IEnumerator Init()
@@ -159,7 +141,10 @@ public class Car : MonoBehaviour {
 
         isCalc = true;
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = false;
+        }
 
         navMeshPath = new NavMeshPath();
         yield return null;

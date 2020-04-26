@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//Testing algorithm for other level
 public class CalculatePathToDestination : MonoBehaviour {
 
     [SerializeField] Transform TargetTransform;
@@ -17,7 +19,7 @@ public class CalculatePathToDestination : MonoBehaviour {
 
         if (found) return;
 
-        StartCoroutine(nav.SetDestination(TargetTransform.position));
+        StartCoroutine(nav.SetDestination(transform.position, TargetTransform.position));
         if (!nav.pathPending && nav.fullPath.Count > 0)
         {
             //navMeshAgent.SetDestination(trans.position);

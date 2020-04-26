@@ -2,10 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 
+ *  Implementation based on Sebastian Lague
+ *  'https://github.com/SebLague/Pathfinding'
+ *
+ */
+
+//Class used for creating a grid of nodes used for implemented pathfinding algorithms
 public class Grid : MonoBehaviour {
 
     public Vector2 gridWorldSize;
-    public float nodeRadius;
+    public float nodeLength;
     public bool drawGrid;
     public Node[,] grid;
 
@@ -17,12 +25,14 @@ public class Grid : MonoBehaviour {
    
 	// Use this for initialization
 	void Start () {
-        m_nodeDiameter = nodeRadius * 2;
+        m_nodeDiameter = nodeLength * 2;
         m_gridSizeX = Mathf.RoundToInt(gridWorldSize.x / m_nodeDiameter);
         m_gridSizeY = Mathf.RoundToInt(gridWorldSize.y / m_nodeDiameter);
         
   	}
 
+    public int GridSizeX { get { return m_gridSizeX; } }
+    public int GridSizeY { get { return m_gridSizeY; } }
     public int MaxSize { get { return m_gridSizeX * m_gridSizeY; } }
 
     IEnumerator CreateGrid()
@@ -34,9 +44,9 @@ public class Grid : MonoBehaviour {
         {
             for(int y = 0; y < m_gridSizeY; ++y)
             {
-                Vector3 pointInWorld = worldBottomLeft + Vector3.right * (x * m_nodeDiameter + nodeRadius) + Vector3.forward * (y * m_nodeDiameter + nodeRadius);
+                Vector3 pointInWorld = worldBottomLeft + Vector3.right * (x * m_nodeDiameter + nodeLength) + Vector3.forward * (y * m_nodeDiameter + nodeLength);
 
-                bool walkable = (Physics.CheckSphere(pointInWorld, nodeRadius));
+                bool walkable = (Physics.CheckSphere(pointInWorld, nodeLength));
 
                 grid[x, y] = new Node(walkable, pointInWorld, x, y);
             }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465782, g: 0.49641252, b: 0.5748167, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -142,7 +142,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Map: {fileID: 1731321711}
   CarObject: {fileID: 1605959514856990, guid: 8925f75b4c27ff947974da9430b21ff5, type: 2}
-  CarAmount: 10
+  CarAmount: 50
   canvas: {fileID: 1255812234}
   slider: {fileID: 1595790876}
   finishLoaded: 0
@@ -1410,7 +1410,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13f8999aa7ff8cb4aa4514a3d8e13e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  map: {fileID: 1731321712}
   cam: {fileID: 534669904}
   dragSpeed: 2
 --- !u!114 &1731321715
@@ -1425,7 +1424,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gridWorldSize: {x: 2200, y: 2200}
-  nodeRadius: 2
+  nodeLength: 2
   drawGrid: 0
 --- !u!21 &1852750050
 Material:

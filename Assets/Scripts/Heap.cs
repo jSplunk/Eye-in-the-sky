@@ -3,6 +3,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
+/*
+ * 
+ *  Implementation based on Sebastian Lague
+ *  'https://github.com/SebLague/Pathfinding'
+ *
+ */
+
 public interface IHeapItem<T> : IComparable<T>
 {
     int HeapIndex
@@ -17,11 +24,11 @@ public class Heap<T> where T : IHeapItem<T> {
     T[] m_items;
     int m_maxSize;
 
-    public Heap(int maxSize)
+    public Heap(int _maxSize)
     {
         Count = 0;
-        m_maxSize = maxSize;
-        m_items = new T[maxSize];
+        m_maxSize = _maxSize;
+        m_items = new T[_maxSize];
     }
 
     public void Add(T item)

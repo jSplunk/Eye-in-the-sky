@@ -5,6 +5,8 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.AI;
 
+
+//Car object in the A*/JPS+ implementation
 public class OtherCar : MonoBehaviour {
 
     [SerializeField] Vector3 TargetPosition;
@@ -41,17 +43,6 @@ public class OtherCar : MonoBehaviour {
         timer = 5.0f;
 
         StartCoroutine(Init());
-
-        //StartPosition.x = Random.Range(-1000, 1000);
-
-        //StartPosition.y = 0.6f;
-
-        //StartPosition.z = Random.Range(-1000, 1000);
-        
-
-       
-
-        
     }
 	
 	// Update is called once per frame
@@ -72,32 +63,12 @@ public class OtherCar : MonoBehaviour {
             first = true;
         }
 
-       
+        if (nav == null) return;
 
-        //if (!nav.pathPending && nav.fullPath.Count > 0)
-        //{
-        //    foreach (Node n in nav.fullPath)
-        //    {
-        //        move(n.worldPosition);
-        //    }
-        //}
-
-        
-        //if (navMeshAgent.velocity.magnitude < 1f )
-        //{
-        //    timer -= Time.deltaTime;
-        //}
-        //else
-        //{
-        //    timer = 5.0f;
-        //}
-
-        //if(timer < 0 && TransformControllerOtherNavigation.Instance.finishLoaded)
-        //{
-        //    StartCoroutine(CalcPath());
-        //    navMeshAgent.Warp(navMeshAgent.transform.position + (navMeshAgent.transform.position.normalized * 2));
-        //    timer = 5.0f;
-        //}
+        if (!nav.pathPending && nav.fullPath.Count < 1)
+        {
+            CalcPath();
+        }
 
         if (debug)
         {
@@ -107,14 +78,6 @@ public class OtherCar : MonoBehaviour {
             for (int i = 0; i < nav.fullPath.Count - 1; i++)
                 Debug.DrawLine(nav.fullPath[i].worldPosition, nav.fullPath[i + 1].worldPosition);
         }
-
-        if (nav == null) return;
-
-        if (!nav.pathPending && nav.fullPath.Count < 1)
-        {
-            CalcPath();
-        }
-
 
     }
 
@@ -130,19 +93,13 @@ public class OtherCar : MonoBehaviour {
         
     }
 
-    void Go()
-    {
-        StartPosition = transform.position;
-    }
-
     void CalcPath()
     {
         
         Transform trans = TransformControllerOtherNavigation.Instance.GetRandomTransform();
-        StartCoroutine(nav.SetDestination(trans.position));
+        StartCoroutine(nav.SetDestination(transform.position, trans.position));
         if (!nav.pathPending && nav.fullPath.Count > 0)
         {
-            //navMeshAgent.SetDestination(trans.position);
             StartPosition = transform.position;
             TransformControllerOtherNavigation.Instance.CarsReady.Invoke();
         }
@@ -153,10 +110,13 @@ public class OtherCar : MonoBehaviour {
         }
     }
 
+
     void Render()
     {
-        
-        GetComponentInChildren<MeshRenderer>().enabled = true;
+        foreach (MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = true;
+        }
         render = true;
     }
 
@@ -178,13 +138,17 @@ public class OtherCar : MonoBehaviour {
 
         navMeshAgent.speed = speed;
 
-        GetComponentInChildren<MeshRenderer>().enabled = false;
+        foreach(MeshRenderer mr in GetComponentsInChildren<MeshRenderer>())
+        {
+            mr.enabled = false;
+        }
 
         nav = GetComponent<Navigation>();
 
         yield return null;
     }
 
+    //Can be used to move car without using a NavMesh
     void move(Vector3 destination)
     {
         float startTime = Time.time;

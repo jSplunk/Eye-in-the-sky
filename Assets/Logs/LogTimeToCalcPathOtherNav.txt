@@ -92,3 +92,68 @@ Milliseconds to calculate path for 10 Cars: {0.00044}
 Milliseconds to calculate path for 10 Cars: {0.00054}
 Milliseconds to calculate path for 8 Cars: {0.00024}
 Milliseconds to calculate path for 10 Cars: {0.00044}
+-----------------------------------------------------
+//New Computer
+//A*
+Milliseconds to calculate path for 10 Cars: {0.00054}
+Milliseconds to calculate path for 10 Cars: {0.00014}
+Milliseconds to calculate path for 10 Cars: {0.00024}
+Milliseconds to calculate path for 10 Cars: {0.0008400001}
+Milliseconds to calculate path for 10 Cars: {0.00034}
+Milliseconds to calculate path for 9 Cars: {0.00014}
+Milliseconds to calculate path for 10 Cars: {0.00034}
+Milliseconds to calculate path for 10 Cars: {0.00074}
+Milliseconds to calculate path for 10 Cars: {0.00024}
+Milliseconds to calculate path for 10 Cars: {0.00044}
+//JPS+
+Milliseconds to calculate path for 10 Cars: {0.00054}
+Milliseconds to calculate path for 10 Cars: {0.00034}
+Milliseconds to calculate path for 10 Cars: {0.00044}
+Milliseconds to calculate path for 8 Cars: {0.00024}
+Milliseconds to calculate path for 9 Cars: {0.00044}
+Milliseconds to calculate path for 10 Cars: {0.00014}
+Milliseconds to calculate path for 10 Cars: {0.00034}
+Milliseconds to calculate path for 10 Cars: {0.00054}
+Milliseconds to calculate path for 9 Cars: {0.00054}
+Milliseconds to calculate path for 10 Cars: {0.00054}
+
+Milliseconds to calculate path for 96 Cars: {0.00134}
+Milliseconds to calculate path for 98 Cars: {0.00074}
+Milliseconds to calculate path for 97 Cars: {0.00074}
+Milliseconds to calculate path for 98 Cars: {0.0008400001}
+Milliseconds to calculate path for 97 Cars: {0.00114}
+Milliseconds to calculate path for 96 Cars: {0.00074}
+Milliseconds to calculate path for 98 Cars: {0.00104}
+Milliseconds to calculate path for 95 Cars: {0.0009400001}
+Milliseconds to calculate path for 95 Cars: {0.00074}
+Milliseconds to calculate path for 47 Cars: {0.00074}
+Milliseconds to calculate path for 46 Cars: {0.00054}
+Milliseconds to calculate path for 48 Cars: {0.00074}
+Milliseconds to calculate path for 49 Cars: {0.0009400001}
+Milliseconds to calculate path for 47 Cars: {0.00064}
+Milliseconds to calculate path for 48 Cars: {0.00054}
+Milliseconds to calculate path for 47 Cars: {0.00064}
+Milliseconds to calculate path for 47 Cars: {0.00064}
+Milliseconds to calculate path for 47 Cars: {0.0008400001}
+Milliseconds to calculate path for 49 Cars: {0.0009400001}
+//A*
+Milliseconds to calculate path for 94 Cars: {0.00114}
+Milliseconds to calculate path for 99 Cars: {0.00074}
+Milliseconds to calculate path for 97 Cars: {0.0008400001}
+Milliseconds to calculate path for 97 Cars: {0.0008400001}
+Milliseconds to calculate path for 96 Cars: {0.00054}
+Milliseconds to calculate path for 95 Cars: {0.0009400001}
+Milliseconds to calculate path for 97 Cars: {0.00104}
+Milliseconds to calculate path for 95 Cars: {0.00064}
+Milliseconds to calculate path for 99 Cars: {0.0008400001}
+Milliseconds to calculate path for 97 Cars: {0.0008400001}
+Milliseconds to calculate path for 50 Cars: {0.00074}
+Milliseconds to calculate path for 46 Cars: {0.00114}
+Milliseconds to calculate path for 49 Cars: {0.0008400001}
+Milliseconds to calculate path for 46 Cars: {0.00074}
+Milliseconds to calculate path for 49 Cars: {0.00044}
+Milliseconds to calculate path for 48 Cars: {0.00064}
+Milliseconds to calculate path for 48 Cars: {0.00054}
+Milliseconds to calculate path for 49 Cars: {0.00064}
+Milliseconds to calculate path for 48 Cars: {0.00054}
+Milliseconds to calculate path for 47 Cars: {0.00034}

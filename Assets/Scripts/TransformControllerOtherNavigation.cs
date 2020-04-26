@@ -11,6 +11,8 @@ public class MyCarEventOther : UnityEvent<OtherCar>
 {
 }
 
+
+//Controlls the spawning of cars, and UI elements
 public class TransformControllerOtherNavigation : MonoBehaviour {
     Transform[] Locations;
     public GameObject Map;
@@ -20,7 +22,7 @@ public class TransformControllerOtherNavigation : MonoBehaviour {
     [SerializeField] Canvas canvas;
     [SerializeField] Slider slider;
     List<OtherCar> Cars;
-    bool first;
+    bool firstFrame;
     [HideInInspector] public bool finishLoaded;
     public static TransformControllerOtherNavigation Instance;
     [HideInInspector] public UnityEvent CarsReady;
@@ -38,7 +40,7 @@ public class TransformControllerOtherNavigation : MonoBehaviour {
     }
 
     void Start () {
-        first = false;
+        firstFrame = false;
         Cars = new List<OtherCar>();
 
         for (int i = 0; i < CarAmount; i++)
@@ -59,10 +61,10 @@ public class TransformControllerOtherNavigation : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if(!first)
+		if(!firstFrame)
         {
             Locations = Map.GetComponentsInChildren<Transform>();
-            first = true;
+            firstFrame = true;
             slider.maxValue = Cars.Count;
         }
 
